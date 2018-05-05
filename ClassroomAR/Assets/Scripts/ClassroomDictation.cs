@@ -12,6 +12,9 @@ public class ClassroomDictation : MonoBehaviour {
     [SerializeField]
     private Text m_Recognitions;
 
+    [SerializeField]
+    private MathDetection mathDetector;
+
     private DictationRecognizer m_DictationRecognizer;
 
     void Start()
@@ -21,7 +24,13 @@ public class ClassroomDictation : MonoBehaviour {
         m_DictationRecognizer.DictationResult += (text, confidence) =>
         {
             Debug.LogFormat("Dictation result: {0}", text);
+            if(this.mathDetector.isMath(text))
+            {
+                this.mathDetector.GenerateWolframLink(text);
+            }
+
             m_Recognitions.text += text + "\n";
+
         };
 
         m_DictationRecognizer.DictationHypothesis += (text) =>
