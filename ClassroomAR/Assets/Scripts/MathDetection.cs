@@ -36,7 +36,7 @@ public class MathDetection : MonoBehaviour {
 
     public Dictionary<string, string> mathKeys = new Dictionary<string, string>();
 
-    public string currentEquationUrl;
+    public string currentEquationUrl = "";
 
     // Use this for initialization
     void Start() {
@@ -135,5 +135,10 @@ public class MathDetection : MonoBehaviour {
         }
 
          this.currentEquationUrl = link;
+    }
+
+    public void OpenWolframLink()
+    {
+        Application.OpenURL(this.currentEquationUrl);
     }
 }

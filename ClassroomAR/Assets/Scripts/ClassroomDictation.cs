@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Windows.Speech;
@@ -13,6 +14,9 @@ public class ClassroomDictation : MonoBehaviour {
     private Text m_Recognitions;
 
     [SerializeField]
+    private Button wolframButton;
+
+    [SerializeField]
     private MathDetection mathDetector;
 
     private DictationRecognizer m_DictationRecognizer;
@@ -23,10 +27,18 @@ public class ClassroomDictation : MonoBehaviour {
 
         m_DictationRecognizer.DictationResult += (text, confidence) =>
         {
-            Debug.LogFormat("Dictation result: {0}", text);
+            UnityEngine.Debug.LogFormat("Dictation result: {0}", text);
             if(this.mathDetector.isMath(text))
             {
                 this.mathDetector.GenerateWolframLink(text);
+                if (this.mathDetector.currentEquationUrl != "")
+                {
+                    this.wolframButton.gameObject.SetActive(true);
+                }
+                else
+                {
+                    this.wolframButton.gameObject.SetActive(false);
+                }
             }
 
             m_Recognitions.text += text + "\n";
@@ -35,19 +47,19 @@ public class ClassroomDictation : MonoBehaviour {
 
         m_DictationRecognizer.DictationHypothesis += (text) =>
         {
-            Debug.LogFormat("Dictation hypothesis: {0}", text);
+            UnityEngine.Debug.LogFormat("Dictation hypothesis: {0}", text);
             m_Hypotheses.text += text;
         };
 
         m_DictationRecognizer.DictationComplete += (completionCause) =>
         {
             if (completionCause != DictationCompletionCause.Complete)
-                Debug.LogErrorFormat("Dictation completed unsuccessfully: {0}.", completionCause);
+                UnityEngine.Debug.LogErrorFormat("Dictation completed unsuccessfully: {0}.", completionCause);
         };
 
         m_DictationRecognizer.DictationError += (error, hresult) =>
         {
-            Debug.LogErrorFormat("Dictation error: {0}; HResult = {1}.", error, hresult);
+            UnityEngine.Debug.LogErrorFormat("Dictation error: {0}; HResult = {1}.", error, hresult);
         };
 
         m_DictationRecognizer.Start();
