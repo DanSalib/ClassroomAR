@@ -87,7 +87,7 @@ public class FadeObject : MonoBehaviour
     {
         foreach (var renderer in m_RenderersToFade)
         {
-            if (renderer.sharedMaterial.HasProperty("_Color"))
+            if(renderer.sharedMaterial.HasProperty("_Color"))
             {
                 Color fadedColor = renderer.sharedMaterial.GetColor("_Color");
                 fadedColor.a = opacity;

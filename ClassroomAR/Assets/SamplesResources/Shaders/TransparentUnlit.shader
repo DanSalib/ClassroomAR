@@ -1,11 +1,4 @@
-﻿//===============================================================================
-//Copyright (c) 2015-2016 PTC Inc. All Rights Reserved.
-//
-//Vuforia is a trademark of PTC Inc., registered in the United States and other
-//countries.
-//===============================================================================
-
-Shader "Custom/TransparentUnlit" {
+﻿Shader "Custom/TransparentUnlit" {
     Properties {
         _BaseColor ("Base Color", Color) = (1.0,1.0,1.0,1.0)
         _MainTex ("Base (RGBA)", 2D) = "white" {}

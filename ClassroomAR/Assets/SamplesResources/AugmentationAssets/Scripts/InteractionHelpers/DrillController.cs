@@ -30,7 +30,7 @@ public class DrillController : MonoBehaviour
                 drillLerpPercentage = 1.0f;
             }
 
-            transform.localScale = 5f* Vector3.one * drillLerpPercentage;
+            transform.localScale = Vector3.one * drillLerpPercentage;
         }
         else if (!m_IsDrilling && drillLerpPercentage > 0.0f)
         {
@@ -41,7 +41,7 @@ public class DrillController : MonoBehaviour
                 drillLerpPercentage = 0.0f;
             }
 
-            transform.localScale = 5f*Vector3.one * drillLerpPercentage;
+            transform.localScale = Vector3.one * drillLerpPercentage;
         }
     }
     #endregion //UNITY_MONOBEHAVIOUR_METHODS
