@@ -19,11 +19,16 @@ public class ClassroomDictation : MonoBehaviour {
     [SerializeField]
     private MathDetection mathDetector;
 
+    [SerializeField]
+    private ScrollRect scrollView;
+
     private DictationRecognizer m_DictationRecognizer;
 
     void Start()
     {
         m_DictationRecognizer = new DictationRecognizer();
+
+        RectTransform rt = this.scrollView.content.GetComponent<RectTransform>();
 
         m_DictationRecognizer.DictationResult += (text, confidence) =>
         {
@@ -42,6 +47,9 @@ public class ClassroomDictation : MonoBehaviour {
             }
 
             m_Recognitions.text += text + "\n";
+            rt.sizeDelta += new Vector2(0, 20);
+            this.scrollView.verticalScrollbar.value = 0f;
+
 
         };
 
