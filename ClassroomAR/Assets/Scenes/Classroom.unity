@@ -754,6 +754,8 @@ GameObject:
   - component: {fileID: 807376144}
   - component: {fileID: 807376143}
   - component: {fileID: 807376149}
+  - component: {fileID: 807376150}
+  - component: {fileID: 807376151}
   m_Layer: 0
   m_Name: classroomImageTarget
   m_TagString: Untagged
@@ -865,11 +867,37 @@ SphereCollider:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 807376142}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.25
   m_Center: {x: 0, y: 0.26, z: -6.82121e-13}
+--- !u!114 &807376150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 807376142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6f9b6676d6290e4c95daf3cf0fae248, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!54 &807376151
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 807376142}
+  serializedVersion: 2
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &895179813
 GameObject:
   m_ObjectHideFlags: 0
@@ -1145,7 +1173,6 @@ GameObject:
   - component: {fileID: 1092897582}
   - component: {fileID: 1092897581}
   - component: {fileID: 1092897580}
-  - component: {fileID: 1092897584}
   - component: {fileID: 1092897583}
   m_Layer: 5
   m_Name: wolframButton
@@ -1265,22 +1292,11 @@ BoxCollider:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1092897578}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 120.33, y: 29.02, z: 29.19}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1092897584
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1092897578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6f9b6676d6290e4c95daf3cf0fae248, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Size: {x: 120.33, y: 29.02, z: 304.5}
+  m_Center: {x: 0, y: 0, z: -161.51}
 --- !u!1 &1282880514
 GameObject:
   m_ObjectHideFlags: 0
@@ -1410,7 +1426,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -82.37993, y: -0.000095997275}
+  m_AnchoredPosition: {x: -82.37993, y: -0.00008828636}
   m_SizeDelta: {x: 783.4, y: 100}
   m_Pivot: {x: 0.4, y: 1}
 --- !u!114 &1440092200
