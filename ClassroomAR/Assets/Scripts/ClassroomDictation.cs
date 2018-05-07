@@ -49,8 +49,6 @@ public class ClassroomDictation : MonoBehaviour {
             m_Recognitions.text += text + "\n";
             rt.sizeDelta += new Vector2(0, 20);
             this.scrollView.verticalScrollbar.value = 0f;
-
-
         };
 
         m_DictationRecognizer.DictationHypothesis += (text) =>
