@@ -28,13 +28,13 @@ public class ClassroomDictation : MonoBehaviour {
     void Start()
     {
         m_DictationRecognizer = new DictationRecognizer();
-
+    
         RectTransform rt = this.scrollView.content.GetComponent<RectTransform>();
 
         m_DictationRecognizer.DictationResult += (text, confidence) =>
         {
             UnityEngine.Debug.LogFormat("Dictation result: {0}", text);
-            if(this.mathDetector.isMath(text))
+            if (this.mathDetector.isMath(text))
             {
                 this.mathDetector.GenerateWolframLink(text);
                 if (this.mathDetector.currentEquationUrl != "")
