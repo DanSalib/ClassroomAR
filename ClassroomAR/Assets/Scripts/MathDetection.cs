@@ -68,17 +68,10 @@ public class MathDetection : MonoBehaviour {
 
                 mathScore++;
                 continue;
-            } else
-            {
-                if (words[i].Length == 1)
-                {
-                    mathScore++;
-                    continue;
-                }
-            }
+            } 
         }
 
-        if (mathScore > 2)
+        if (mathScore > 3)
         {
             return true;
         }
@@ -98,6 +91,8 @@ public class MathDetection : MonoBehaviour {
     private void InitializeMathKeys()
     {
         this.mathKeys.Add(additionSymbol, "+" + plusUrlParam + "+");
+        this.mathKeys.Add(plusKey, "+" + plusUrlParam + "+");
+        this.mathKeys.Add(minusKey, "-");
         this.mathKeys.Add(equalsKey, "+" + equalsUrlParam + "+");
         this.mathKeys.Add(divisionSymbol, "+" + divisionUrlParam);
         this.mathKeys.Add(timesKey, multiplicationSymbol);
