@@ -48,7 +48,7 @@ public class ClassroomDictationAndroid : MonoBehaviour
         speechPlugin.SetCallingPackage("com.mycoolcompany.mygame");
 
         AddSpeechPluginListener();
-        this.StartListening();
+        this.StartListeningNoBeep();
 
     }
 
@@ -184,7 +184,7 @@ public class ClassroomDictationAndroid : MonoBehaviour
         }
 
         Debug.Log(TAG + " call CancelSpeech..  ");
-        this.StartListening();
+        this.StartListeningNoBeep();
 
     }
 
@@ -196,7 +196,7 @@ public class ClassroomDictationAndroid : MonoBehaviour
         }
         Debug.Log(TAG + " StopListening...  ");
 
-        this.StartListening();
+        this.StartListeningNoBeep();
     }
 
     public void StopCancel()
@@ -206,7 +206,7 @@ public class ClassroomDictationAndroid : MonoBehaviour
             speechPlugin.StopCancel();
         }
         Debug.Log(TAG + " StopCancel...  ");
-        this.StartListening();
+        this.StartListeningNoBeep();
 
     }
 
@@ -262,7 +262,7 @@ public class ClassroomDictationAndroid : MonoBehaviour
             () =>
             {
                 UpdateStatus(data.ToString());
-
+                this.StartListeningNoBeep();
             }
         );
     }
@@ -281,8 +281,9 @@ public class ClassroomDictationAndroid : MonoBehaviour
 
                 if (resultText != null)
                 {
-                    resultText.text = "Result: Waiting for result...";
+                    //resultText.text = "Result: Waiting for result...";
                 }
+                this.StartListeningNoBeep();
             }
         );
     }
@@ -332,7 +333,7 @@ public class ClassroomDictationAndroid : MonoBehaviour
                     this.scrollRect.sizeDelta += new Vector2(0, 22);
                     this.scrollView.verticalScrollbar.value = 0f;
 
-                    this.StartListening();
+                    this.StartListeningNoBeep();
                 }
             }
         );
