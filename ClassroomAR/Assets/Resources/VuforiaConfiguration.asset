@@ -27,8 +27,8 @@ MonoBehaviour:
     eyewearType: 0
     stereoFramework: 0
     seeThroughConfiguration: 0
-    viewerName: 
-    viewerManufacturer: 
+    viewerName: Cardboard v1
+    viewerManufacturer: Google
     useCustomViewer: 0
     customViewer:
       Version: 0
