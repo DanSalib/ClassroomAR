@@ -14,7 +14,7 @@ public class CalculatorController : MonoBehaviour
 
     private float result;
 
-    private Dictionary<char, int> numbers = new Dictionary<char, int> { { '0',0 }, { '1', 1 }, { '2', 2 }, { '3', 3 }, { '4', 4 }, { '5', 5 }, { '6', 6 }, { '7', 7 }, { '8', 8 }, { '9', 9 } };
+    private Dictionary<char, int> numbers = new Dictionary<char, int> { { '0', 0 }, { '1', 1 }, { '2', 2 }, { '3', 3 }, { '4', 4 }, { '5', 5 }, { '6', 6 }, { '7', 7 }, { '8', 8 }, { '9', 9 } };
     private List<char> operators = new List<char> { '+', '-', '/', '*', '^' };
 
     public void ToggleButtonPress()
@@ -33,7 +33,7 @@ public class CalculatorController : MonoBehaviour
         char curOperator = ' ';
         foreach(char c in inputField.text)
         {
-            if (numbers.ContainsKey(c))
+            if (numbers.ContainsKey(c) || c == '.')
             {
                 curNumber += c;
             }
