@@ -74,8 +74,8 @@ public class SpeechPlugin : MonoBehaviour
         remove{ ShowExtraSupportedLanguage -= value;}
     }
 
-    public static event Action <string> OnSpeechSearchComplete;
-    public static event Action <string> OnSpeechSearchFail;
+    public event Action <string> OnSpeechSearchComplete;
+    public event Action <string> OnSpeechSearchFail;
 
     //new
     private bool hasInit = false;

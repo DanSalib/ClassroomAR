@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System;
+using System.Diagnostics;
 using AUP;
 
 public class ClassroomDictationAndroid : MonoBehaviour
@@ -28,12 +29,11 @@ public class ClassroomDictationAndroid : MonoBehaviour
 
     private RectTransform scrollRect;
 
+    private Coroutine curCoroutine;
 
     // Use this for initialization
     void Start()
     {
-        this.scrollRect = this.scrollView.content.GetComponent<RectTransform>();
-
         dispatcher = Dispatcher.GetInstance();
         // for accessing audio
         utilsPlugin = UtilsPlugin.GetInstance();
@@ -49,7 +49,11 @@ public class ClassroomDictationAndroid : MonoBehaviour
 
         AddSpeechPluginListener();
         this.StartListeningNoBeep();
+    }
 
+    private void Awake()
+    {
+        this.scrollRect = this.scrollView.content.GetComponent<RectTransform>();
     }
 
     private void OnEnable()
@@ -57,17 +61,13 @@ public class ClassroomDictationAndroid : MonoBehaviour
         AddSpeechPluginListener();
     }
 
-    private void OnDisable()
-    {
-        RemoveSpeechPluginListener();
-    }
-
     private void AddSpeechPluginListener()
     {
         if (speechPlugin != null)
         {
             //add speech recognizer listener
-            speechPlugin.onReadyForSpeech += onReadyForSpeech;
+            speechPlugin.onReadyForSpeech += onReadyForSp
+                eech;
             speechPlugin.onBeginningOfSpeech += onBeginningOfSpeech;
             speechPlugin.onEndOfSpeech += onEndOfSpeech;
             speechPlugin.onError += onError;
@@ -133,12 +133,14 @@ public class ClassroomDictationAndroid : MonoBehaviour
         }
         else
         {
-            Debug.Log(TAG + "Speech Recognizer not supported by this Android device ");
+            UnityEngine.Debug.Log(TAG + "Speech Recognizer not supported by this Android device ");
         }
     }
 
     public void StartListeningNoBeep()
     {
+        this.resultText.text += "start \n";
+        this.scrollRect.sizeDelta += new Vector2(0, 22);
         bool isSupported = speechPlugin.CheckSpeechRecognizerSupport();
 
         if (isSupported)
@@ -154,11 +156,17 @@ public class ClassroomDictationAndroid : MonoBehaviour
             //speechPlugin.EnableOffline(true);
 
             // enable partial Results
-            speechPlugin.EnablePartialResult(true);
+            //speechPlugin.EnablePartialResult(true);
 
             int numberOfResults = 5;
             speechPlugin.StartListening(numberOfResults);
             ///speechPlugin.StartListeningNoBeep(numberOfResults,true);
+            if(curCoroutine != null)
+            {
+                StopCoroutine(this.curCoroutine);
+            }
+
+            this.curCoroutine = StartCoroutine("RestartSpeech");
 
             //by activating this, the Speech Recognizer will start and you can start Speaking or saying something 
             //speech listener will stop automatically especially when you stop speaking or when you are speaking 
@@ -166,13 +174,29 @@ public class ClassroomDictationAndroid : MonoBehaviour
         }
         else
         {
-            Debug.Log(TAG + "Speech Recognizer not supported by this Android device ");
+            UnityEngine.Debug.Log(TAG + "Speech Recognizer not supported by this Android device ");
         }
+    }
+
+    private IEnumerator RestartSpeech()
+    {
+        float restartTime = 5.5f;
+        while(restartTime > 0)
+        {
+            yield return new WaitForSeconds(1);
+            restartTime--;
+        }
+        this.CancelSpeech();
+        yield return new WaitForSeconds(0.5f);
+        this.StartListeningNoBeep();
     }
 
     //cancel speech
     public void CancelSpeech()
     {
+        this.resultText.text += "cancel \n";
+        this.scrollRect.sizeDelta += new Vector2(0, 22);
+
         if (speechPlugin != null)
         {
             bool isSupported = speechPlugin.CheckSpeechRecognizerSupport();
@@ -183,9 +207,7 @@ public class ClassroomDictationAndroid : MonoBehaviour
             }
         }
 
-        Debug.Log(TAG + " call CancelSpeech..  ");
-        this.StartListeningNoBeep();
-
+        UnityEngine.Debug.Log(TAG + " call CancelSpeech..  ");
     }
 
     public void StopListening()
@@ -194,7 +216,7 @@ public class ClassroomDictationAndroid : MonoBehaviour
         {
             speechPlugin.StopListening();
         }
-        Debug.Log(TAG + " StopListening...  ");
+        UnityEngine.Debug.Log(TAG + " StopListening...  ");
 
         this.StartListeningNoBeep();
     }
@@ -205,7 +227,7 @@ public class ClassroomDictationAndroid : MonoBehaviour
         {
             speechPlugin.StopCancel();
         }
-        Debug.Log(TAG + " StopCancel...  ");
+        UnityEngine.Debug.Log(TAG + " StopCancel...  ");
         this.StartListeningNoBeep();
 
     }
@@ -262,7 +284,6 @@ public class ClassroomDictationAndroid : MonoBehaviour
             () =>
             {
                 UpdateStatus(data.ToString());
-                this.StartListeningNoBeep();
             }
         );
     }
@@ -300,7 +321,7 @@ public class ClassroomDictationAndroid : MonoBehaviour
                     Invoke("DelayUnMute", 0.3f);
 
                     string[] results = data.Split(',');
-                    Debug.Log(TAG + " result length " + results.Length);
+                    UnityEngine.Debug.Log(TAG + " result length " + results.Length);
 
                     //when you set morethan 1 results index zero is always the closest to the words the you said
                     //but it's not always the case so if you are not happy with index zero result you can always 
@@ -309,7 +330,7 @@ public class ClassroomDictationAndroid : MonoBehaviour
                     //sample on checking other results
                     foreach (string possibleResults in results)
                     {
-                        Debug.Log(TAG + " possibleResults " + possibleResults);
+                        UnityEngine.Debug.Log(TAG + " possibleResults " + possibleResults);
                     }
 
                     //sample showing the nearest result
@@ -328,13 +349,11 @@ public class ClassroomDictationAndroid : MonoBehaviour
                         }
                     }
 
-                    resultText.text += whatToSay + "\n";
-
+                    this.resultText.text += whatToSay + "\n";
                     this.scrollRect.sizeDelta += new Vector2(0, 22);
                     this.scrollView.verticalScrollbar.value = 0f;
-
-                    this.StartListeningNoBeep();
                 }
+                this.StartListeningNoBeep();
             }
         );
     }

@@ -13,6 +13,7 @@ public class MathDetection : MonoBehaviour {
     private const string overKey = "over";
     private const string pointKey = "point";
     private const string toThePowerOfKey = "to the power of";
+    private const string squaredKey = "squared";
     private const string equalsKey = "equals";
     private const string negativeKey = "negative";
     private const string positiveKey = "positive";
@@ -45,13 +46,14 @@ public class MathDetection : MonoBehaviour {
 
     public bool isMath(string text)
     {
+        bool containsOperation = false;
         int mathScore = 0;
         string[] words = text.Split(' ');
         for (int i = 0; i < words.Length; i++)
         {
-            float num = -9549546.23423f;
+            float num = -9549546.444423423f;
             float.TryParse(words[i], out num);
-            if (num != -9549546.23423f)
+            if (num != -9549546.444423423f)
             {
                 mathScore++;
                 continue;
@@ -65,13 +67,13 @@ public class MathDetection : MonoBehaviour {
                     continue;
                 }
 
-
+                containsOperation = true;
                 mathScore++;
                 continue;
             } 
         }
 
-        if (mathScore > 3)
+        if (mathScore > 2 && containsOperation)
         {
             return true;
         }
