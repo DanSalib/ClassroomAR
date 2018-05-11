@@ -259,7 +259,7 @@ public class SpeechRecognizerDemo : MonoBehaviour
 
                 if (resultText != null)
                 {
-                    resultText.text = "Result: Waiting for result...";
+                    //resultText.text = "Result: Waiting for result...";
                 }
             }
         );

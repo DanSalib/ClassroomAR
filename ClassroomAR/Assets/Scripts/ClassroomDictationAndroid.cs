@@ -19,7 +19,13 @@ public class ClassroomDictationAndroid : MonoBehaviour
     private Button wolframButton;
 
     [SerializeField]
+    private Button googleButton;
+
+    [SerializeField]
     private MathDetection mathDetector;
+
+    [SerializeField]
+    private QuestionDetection questionDetector;
 
     [SerializeField]
     private ScrollRect scrollView;
@@ -66,8 +72,7 @@ public class ClassroomDictationAndroid : MonoBehaviour
         if (speechPlugin != null)
         {
             //add speech recognizer listener
-            speechPlugin.onReadyForSpeech += onReadyForSp
-                eech;
+            speechPlugin.onReadyForSpeech += onReadyForSpeech;
             speechPlugin.onBeginningOfSpeech += onBeginningOfSpeech;
             speechPlugin.onEndOfSpeech += onEndOfSpeech;
             speechPlugin.onError += onError;
@@ -139,8 +144,7 @@ public class ClassroomDictationAndroid : MonoBehaviour
 
     public void StartListeningNoBeep()
     {
-        this.resultText.text += "start \n";
-        this.scrollRect.sizeDelta += new Vector2(0, 22);
+        //this.resultText.text += "start \n";
         bool isSupported = speechPlugin.CheckSpeechRecognizerSupport();
 
         if (isSupported)
@@ -158,7 +162,7 @@ public class ClassroomDictationAndroid : MonoBehaviour
             // enable partial Results
             //speechPlugin.EnablePartialResult(true);
 
-            int numberOfResults = 5;
+            int numberOfResults = 20;
             speechPlugin.StartListening(numberOfResults);
             ///speechPlugin.StartListeningNoBeep(numberOfResults,true);
             if(curCoroutine != null)
@@ -180,23 +184,21 @@ public class ClassroomDictationAndroid : MonoBehaviour
 
     private IEnumerator RestartSpeech()
     {
-        float restartTime = 5.5f;
+        float restartTime = 5.11f;
         while(restartTime > 0)
         {
             yield return new WaitForSeconds(1);
             restartTime--;
         }
         this.CancelSpeech();
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.11f);
         this.StartListeningNoBeep();
     }
 
     //cancel speech
     public void CancelSpeech()
     {
-        this.resultText.text += "cancel \n";
-        this.scrollRect.sizeDelta += new Vector2(0, 22);
-
+        //this.resultText.text += "cancel \n";
         if (speechPlugin != null)
         {
             bool isSupported = speechPlugin.CheckSpeechRecognizerSupport();
@@ -270,6 +272,7 @@ public class ClassroomDictationAndroid : MonoBehaviour
 
     private void onBeginningOfSpeech(string data)
     {
+        StopCoroutine(this.curCoroutine);
         dispatcher.InvokeAction(
             () =>
             {
@@ -336,18 +339,8 @@ public class ClassroomDictationAndroid : MonoBehaviour
                     //sample showing the nearest result
                     string whatToSay = results.GetValue(0).ToString();
 
-                    if (this.mathDetector.isMath(whatToSay))
-                    {
-                        this.mathDetector.GenerateWolframLink(whatToSay);
-                        if (this.mathDetector.currentEquationUrl != "")
-                        {
-                            this.wolframButton.gameObject.SetActive(true);
-                        }
-                        else
-                        {
-                            this.wolframButton.gameObject.SetActive(false);
-                        }
-                    }
+                    this.MathDetectorCheck(whatToSay);
+                    this.QuestionDetectorCheck(whatToSay);
 
                     this.resultText.text += whatToSay + "\n";
                     this.scrollRect.sizeDelta += new Vector2(0, 22);
@@ -356,6 +349,32 @@ public class ClassroomDictationAndroid : MonoBehaviour
                 this.StartListeningNoBeep();
             }
         );
+    }
+
+    private void MathDetectorCheck(string whatToSay)
+    {
+        this.mathDetector.GenerateWolframLink(whatToSay);
+        if (this.mathDetector.currentEquationUrl != "")
+        {
+            this.wolframButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            //this.wolframButton.gameObject.SetActive(false);
+        }
+    }
+
+    private void QuestionDetectorCheck(string whatToSay)
+    {
+        this.questionDetector.GenerateGoogleLink(whatToSay);
+        if (this.questionDetector.currentUrl != "")
+        {
+            this.googleButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            //this.googleButton.gameObject.SetActive(false);
+        }
     }
 
     private void onPartialResults(string data)

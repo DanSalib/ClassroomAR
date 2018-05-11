@@ -51,9 +51,9 @@ public class MathDetection : MonoBehaviour {
         string[] words = text.Split(' ');
         for (int i = 0; i < words.Length; i++)
         {
-            float num = -9549546.444423423f;
+            float num = 0;
             float.TryParse(words[i], out num);
-            if (num != -9549546.444423423f)
+            if (num != 0)
             {
                 mathScore++;
                 continue;
@@ -66,7 +66,6 @@ public class MathDetection : MonoBehaviour {
                     mathScore++;
                     continue;
                 }
-
                 containsOperation = true;
                 mathScore++;
                 continue;
@@ -115,9 +114,9 @@ public class MathDetection : MonoBehaviour {
         string[] words = text.Split(' ');
         for(int i = 0; i < words.Length; i++)
         {
-            if(this.mathKeys.ContainsKey(words[i]))
+            if(this.mathKeys.ContainsKey(words[i].ToLower()))
             {
-                link += this.mathKeys[words[i]];
+                link += this.mathKeys[words[i].ToLower()];
                 continue;
             }
 

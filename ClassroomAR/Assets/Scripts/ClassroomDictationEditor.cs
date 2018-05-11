@@ -23,6 +23,12 @@ public class ClassroomDictationEditor : MonoBehaviour {
     private MathDetection mathDetector;
 
     [SerializeField]
+    private Button googleButton;
+
+    [SerializeField]
+    private QuestionDetection questionDetector;
+
+    [SerializeField]
     private ScrollRect scrollView;
 
     private DictationRecognizer m_DictationRecognizer;
@@ -36,18 +42,8 @@ public class ClassroomDictationEditor : MonoBehaviour {
         m_DictationRecognizer.DictationResult += (text, confidence) =>
         {
             UnityEngine.Debug.LogFormat("Dictation result: {0}", text);
-            if (this.mathDetector.isMath(text))
-            {
-                this.mathDetector.GenerateWolframLink(text);
-                if (this.mathDetector.currentEquationUrl != "")
-                {
-                    this.wolframButton.gameObject.SetActive(true);
-                }
-                else
-                {
-                    this.wolframButton.gameObject.SetActive(false);
-                }
-            }
+            this.MathDetectorCheck(text);
+            this.QuestionDetectorCheck(text);
 
             m_Recognitions.text += text + "\n";
             rt.sizeDelta += new Vector2(0, 22);
@@ -72,6 +68,32 @@ public class ClassroomDictationEditor : MonoBehaviour {
         };
 
         m_DictationRecognizer.Start();
+    }
+
+    private void MathDetectorCheck(string whatToSay)
+    {
+        this.mathDetector.GenerateWolframLink(whatToSay);
+        if (this.mathDetector.currentEquationUrl != "")
+        {
+            this.wolframButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            //this.wolframButton.gameObject.SetActive(false);
+        }
+    }
+
+    private void QuestionDetectorCheck(string whatToSay)
+    {
+        this.questionDetector.GenerateGoogleLink(whatToSay);
+        if (this.questionDetector.currentUrl != "")
+        {
+            this.googleButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            //this.googleButton.gameObject.SetActive(false);
+        }
     }
 #endif
 }
