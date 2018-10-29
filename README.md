@@ -1,5 +1,5 @@
 # ClassroomAR
-VIDEO DEMO: https://www.youtube.com/watch?v=4UTwV_7C210
+Companion App: https://github.com/DanSalib/LectureAssistant
 
 An AR app designed to enhance students' learning in leactures
 
